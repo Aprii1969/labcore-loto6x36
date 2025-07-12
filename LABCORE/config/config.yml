@@ -1,0 +1,137 @@
+# config/config.yml
+
+# Путь к CSV с историей тиражей
+data_path: data/labcore_draws.csv
+
+# ====== Модель структур H/M/L и Hot/Mid/Cold/Sleepy ======
+structure_model:
+  training:
+    test_size:    0.2
+    random_state: 42
+    params:
+      n_estimators: 100
+      max_depth:    5
+  day:
+    model_path:   models/structure_model_day.pkl
+  evening:
+    model_path:   models/structure_model_evening.pkl
+  window: 10
+
+# ====== Патч для Experimental ======
+patch:
+  psw_threshold: 0.1
+  max_patch:     5
+
+# ====== Пороги для метрик и BlindTest ======
+metrics:
+  thresholds:
+    stable:       0.05
+    experimental: 0.02
+
+blindtest:
+  window: 30
+
+# ====== Контроллер: число итераций генерации/калибровки ======
+controller:
+  max_iter: 3
+
+# ====== Параметры взвешивания основных номеров ======
+main_features:
+  alpha_pair: 1.0
+  beta_tri:   0.5
+  gamma_mark: 1.0
+
+# ====== Описание режимов day (нечетные) и evening (четные) ======
+modes:
+
+  day:
+    softpool:
+      window: 50
+      decay:  0.8
+
+    generator:
+      quotas:
+        even_count: 3
+        odd_count:  3
+        low:        2
+        mid:        2
+        hi:         2
+      combos_n:   1000
+
+    bonus:
+      top_k:             3
+      test_size:         0.2
+      random_state:      42
+      window_freq:       10
+      seq_len:           5
+      monitor_window:    50
+      monitor_threshold: 0.30
+      ensemble:
+        rf_model:   models/bonus_rf.pkl
+        meta_model: models/bonus_meta.pkl
+
+    main:
+      test_size:    0.2
+      random_state: 42
+      window_freq:  50
+      decay:        0.8
+      top_k:        6
+
+      xgb:
+        max_depth: 7
+      lgb:
+        num_leaves: 127
+      cbt:
+        depth: 7
+
+      ensemble:
+        xgb_model:  models/main_xgb_day.pkl
+        lgb_model:  models/main_lgb_day.pkl
+        cbt_model:  models/main_cbt_day.pkl
+        meta_model: models/main_meta_day.pkl
+
+  evening:
+    softpool:
+      window: 50
+      decay:  0.8
+
+    generator:
+      quotas:
+        even_count: 3
+        odd_count:  3
+        low:        2
+        mid:        2
+        hi:         2
+      combos_n:   1000
+
+    bonus:
+      top_k:             3
+      test_size:         0.2
+      random_state:      42
+      window_freq:       10
+      seq_len:           5
+      monitor_window:    50
+      monitor_threshold: 0.30
+      ensemble:
+        rf_model:   models/bonus_rf.pkl
+        meta_model: models/bonus_meta.pkl
+
+    main:
+      test_size:    0.2
+      random_state: 42
+      window_freq:  50
+      decay:        0.8
+      top_k:        6
+
+      xgb:
+        max_depth: 7
+      lgb:
+        num_leaves: 127
+      cbt:
+        depth: 7
+
+      ensemble:
+        xgb_model:  models/main_xgb_evening.pkl
+        lgb_model:  models/main_lgb_evening.pkl
+        cbt_model:  models/main_cbt_evening.pkl
+        meta_model: models/main_meta_evening.pkl

@@ -1,0 +1,18 @@
+{
+  "next_draw": 1503,
+  "counts": {
+    "stable": 160,
+    "experimental": 160
+  },
+  "hits": {
+    "stable_H5": 0.0,
+    "stable_H6": 0.0,
+    "exp_H5": 0.0,
+    "exp_H6": 0.0
+  },
+  "files": {
+    "stable": "generated\\combos_1503_stable.csv",
+    "experimental": "АКК\\combos_1503_experimental.csv"
+  },
+  "runtime": 0.294
+}
